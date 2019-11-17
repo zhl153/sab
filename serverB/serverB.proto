@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service Logger {
+	rpc getLog (Req) returns (Res) {}
+}
+
+message Req {
+	string name = 1;
+}
+message Res {
+	string log = 1;
+}
+

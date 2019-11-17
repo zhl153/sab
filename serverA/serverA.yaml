@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servera
+  labels:
+    app: servera
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: servera
+  template:
+    metadata:
+      labels:
+        app: servera
+    spec:
+      containers:
+      - name: servera
+        image: zhllzh2936/server_a
+        ports:
+        - name: grpc
+          containerPort: 50000
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: servera
+  labels:
+    app: servera
+spec:
+  ports:
+  - name: grpc
+    targetPort: 50000
+    port: 80
+    protocol: TCP
+  selector:
+    app: servera

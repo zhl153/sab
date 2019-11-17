@@ -1,0 +1,32 @@
+from concurrent import futures
+import grpc
+
+import serverA_pb2
+import serverA_pb2_grpc
+
+import serverB_pb2
+import serverB_pb2_grpc
+
+class Logger(serverB_pb2_grpc.LoggerServicer):
+    def getLog(self, request, context):
+        try:
+            channel = grpc.insecure_channel('servera:80')
+            stub = serverA_pb2_grpc.TimerStub(channel)
+            res = stub.getTime(serverA_pb2.Request(name=request.name))
+        except:
+            res = 'Unable to connect to A'
+        print(res.t)         
+        return serverB_pb2.Res(log=request.name+' on '+res.t)
+
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
+    serverB_pb2_grpc.add_LoggerServicer_to_server(Logger(), server)
+    server.add_insecure_port('[::]:50001')
+    server.start()
+    print("server start")    
+    server.wait_for_termination()
+
+if __name__ == '__main__':
+    print("start")
+    # print(Logger.getLog(serverA_pb2.Request(name='test')))
+    serve()

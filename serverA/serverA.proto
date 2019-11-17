@@ -1,0 +1,12 @@
+syntax = "proto3";
+service Timer {
+	rpc getTime (Request) returns (Response) {}
+}
+
+message Request {
+	string name = 1;
+}
+
+message Response {
+	string t = 1;
+}

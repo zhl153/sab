@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serverb
+  labels:
+    app: serverb
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: serverb
+  template:
+    metadata:
+      labels:
+        app: serverb
+    spec:
+      containers:
+      - name: serverb
+        image: zhllzh2936/server_b
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 50001
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: serverb
+  labels:
+    app: serverb
+spec:
+  type: LoadBalancer
+  ports:
+    - targetPort: 50001
+      port: 80
+      protocol: TCP
+  selector:
+    app: serverb
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.0.2.127

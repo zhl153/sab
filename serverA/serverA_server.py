@@ -1,4 +1,5 @@
 import grpc
+import logging
 import serverA_pb2
 import serverA_pb2_grpc
 import datetime
@@ -6,7 +7,11 @@ from concurrent import futures
 
 class Timer(serverA_pb2_grpc.TimerServicer):
     def getTime(self, request, context):
+        f = open('log.txt', 'a')
+        f.write('got request from ' + request.name)
         print('got request from ' + request.name)
+        logging.info('got a request from ' + request.name)
+        f.close()
         return serverA_pb2.Response(t=str(datetime.datetime.now()))
 
 def serve():
@@ -17,4 +22,5 @@ def serve():
     server.wait_for_termination()
 
 if __name__ == '__main__':
+    logging.basicConfig()
     serve()

@@ -1,4 +1,4 @@
-FROM python:3.6-slim
+FROM ubuntu
 
 RUN mkdir /app
 
@@ -7,6 +7,7 @@ WORKDIR /app
 COPY . /app
 
 RUN apt-get update -qq \
+    && apt-get install -y python \
     && apt-get install -y --no-install-recommends build-essential \
     && apt-get clean \
     && apt-get install -y dnsutils python-dev python-pip\

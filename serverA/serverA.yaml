@@ -5,7 +5,7 @@ metadata:
   labels:
     app: servera
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: servera
@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: servera
-        image: zhllzh2936/server_a
+        image: gcr.io/dmai-logs-test/server_a
+        tty: true
         ports:
         - name: grpc
           containerPort: 50000

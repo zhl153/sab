@@ -1,24 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: serverb
+  name: serverb1
   labels:
-    app: serverb
+    app: serverb1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: serverb
+      app: serverb1
   template:
     metadata:
       labels:
-        app: serverb
+        app: serverb1
     spec:
       containers:
-      - name: serverb
-        image: gcr.io/dmai-logs-test/server_b
+      - name: serverb1
+        image: gcr.io/dmai-logs-test/server_b1
         imagePullPolicy: Always
-        tty: true
         ports:
           - containerPort: 50001
 ---
@@ -26,9 +25,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: serverb
+  name: serverb1
   labels:
-    app: serverb
+    app: serverb1
 spec:
   type: LoadBalancer
   ports:
@@ -36,7 +35,7 @@ spec:
       port: 80
       protocol: TCP
   selector:
-    app: serverb
+    app: serverb1
 status:
   loadBalancer:
     ingress:
